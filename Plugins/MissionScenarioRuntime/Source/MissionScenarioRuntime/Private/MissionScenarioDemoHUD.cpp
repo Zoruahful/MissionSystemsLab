@@ -48,9 +48,10 @@ void AMissionScenarioDemoHUD::DrawHUD()
 	const FString Objective = BuildObjectiveLine();
 	const FString Instruction = BuildInstructionLine();
 	const FString Progress = FString::Printf(TEXT("Progress %d / %d"), Snapshot.CompletedObjectiveCount, Snapshot.TotalObjectiveCount);
+	const FString ParseSummary = DemoActor->GetScenarioParseSummary();
 
 	const FVector2D PanelPosition(32.0f, 32.0f);
-	const FVector2D PanelSize(430.0f, 150.0f);
+	const FVector2D PanelSize(460.0f, 178.0f);
 	const FLinearColor PanelColor(0.02f, 0.025f, 0.03f, 0.78f);
 	const FLinearColor AccentColor(0.1f, 0.65f, 1.0f, 1.0f);
 	const FLinearColor TextColor(0.96f, 0.98f, 1.0f, 1.0f);
@@ -82,6 +83,10 @@ void AMissionScenarioDemoHUD::DrawHUD()
 	FCanvasTextItem ProgressText(PanelPosition + FVector2D(22.0f, 116.0f), FText::FromString(Progress), SmallFont, MutedTextColor);
 	ProgressText.EnableShadow(FLinearColor::Black);
 	Canvas->DrawItem(ProgressText);
+
+	FCanvasTextItem ParseText(PanelPosition + FVector2D(22.0f, 144.0f), FText::FromString(ParseSummary), SmallFont, MutedTextColor);
+	ParseText.EnableShadow(FLinearColor::Black);
+	Canvas->DrawItem(ParseText);
 }
 
 FString AMissionScenarioDemoHUD::BuildObjectiveLine() const

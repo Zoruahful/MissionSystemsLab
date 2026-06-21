@@ -139,6 +139,17 @@ bool AMissionScenarioDemoActor::InitializeDemoScenario(FString& OutError)
 
 	const bool bResult = Instance->InitializeFromJson(ScenarioJson, OutError);
 	LastStatusMessage = bResult ? TEXT("Scenario initialized.") : OutError;
+	if (bResult)
+	{
+		const FMissionScenarioRuntimeSnapshot Snapshot = Instance->GetSnapshot();
+		ScenarioParseSummary = FString::Printf(
+			TEXT("Scenario Loaded: msl.scenario.v1 | Objectives: %d"),
+			Snapshot.TotalObjectiveCount);
+	}
+	else
+	{
+		ScenarioParseSummary.Reset();
+	}
 	UpdateStatusText();
 	return bResult;
 }
@@ -259,6 +270,11 @@ void AMissionScenarioDemoActor::SetDemoStatusMessage(const FString& Message)
 FString AMissionScenarioDemoActor::GetDemoStatusMessage() const
 {
 	return LastStatusMessage;
+}
+
+FString AMissionScenarioDemoActor::GetScenarioParseSummary() const
+{
+	return ScenarioParseSummary;
 }
 
 FMissionScenarioRuntimeSnapshot AMissionScenarioDemoActor::GetDemoSnapshot() const

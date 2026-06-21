@@ -61,6 +61,9 @@ public:
 	FString GetDemoStatusMessage() const;
 
 	UFUNCTION(BlueprintPure, Category = "Mission Scenario Runtime|Demo")
+	FString GetScenarioParseSummary() const;
+
+	UFUNCTION(BlueprintPure, Category = "Mission Scenario Runtime|Demo")
 	FMissionScenarioRuntimeSnapshot GetDemoSnapshot() const;
 
 	UFUNCTION(BlueprintPure, Category = "Mission Scenario Runtime|Demo")
@@ -75,6 +78,9 @@ public:
 private:
 	UPROPERTY(Transient)
 	FString LastStatusMessage;
+
+	UPROPERTY(Transient)
+	FString ScenarioParseSummary;
 
 	UMissionScenarioInstance* EnsureScenarioInstance();
 	FString BuildObjectiveDisplayText() const;

@@ -1,0 +1,10 @@
+Mission Systems Lab - Scenario Parse Validation
+
+ParseScenarioJson: PASS
+ScenarioId: p1_demo_actor_flow
+Contract: msl.scenario.v1
+Phases: 2
+Objectives: 3
+
+Runtime entry point:
+UMissionScenarioRuntimeLibrary::ParseScenarioJson

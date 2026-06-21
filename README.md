@@ -44,6 +44,7 @@ The HUD shows the current mission state, objective, instruction, and progress.
 | `Plugins/MissionScenarioRuntime/Source/MissionScenarioRuntime` | Runtime mission system plugin. |
 | `Config/DefaultEngine.ini` | Startup/default map configuration. |
 | `Config/DefaultInput.ini` | Movement, camera, and `E` interaction input mappings. |
+| `Validation/SCENARIO_PARSE_VALIDATION.txt` | Scenario JSON parse proof for quick review. |
 
 ## Key Code
 
