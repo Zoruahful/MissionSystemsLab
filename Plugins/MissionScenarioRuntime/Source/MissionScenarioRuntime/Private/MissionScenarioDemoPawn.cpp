@@ -20,6 +20,7 @@ constexpr float DemoHoldRequiredSeconds = 5.0f;
 
 TArray<FName> GetMarkerIdentifiersForObjective(const FString& ObjectiveId)
 {
+	// Runtime tags are the primary lookup path; labels are kept as editor-friendly fallbacks.
 	if (ObjectiveId == TEXT("reach_alpha"))
 	{
 		return { TEXT("nav.alpha"), TEXT("P1_ObjectiveMarker_Alpha") };
@@ -211,6 +212,7 @@ bool AMissionScenarioDemoPawn::EvaluateObjectiveProgress(const float DeltaSecond
 			return false;
 		}
 
+		// Hold objectives require continuous time inside the marker area.
 		HoldObjectiveElapsedSeconds += FMath::Max(0.0f, DeltaSeconds);
 		const float RemainingSeconds = FMath::Max(0.0f, DemoHoldRequiredSeconds - HoldObjectiveElapsedSeconds);
 		LastScenarioInteractionMessage = FString::Printf(TEXT("Hold %.1fs."), RemainingSeconds);
@@ -337,6 +339,7 @@ AActor* AMissionScenarioDemoPawn::FindObjectiveMarker(const FString& ObjectiveId
 		{
 			const FString ActorName = Actor->GetName();
 			const FString MarkerName = MarkerIdentifier.ToString();
+			// Packaged actors may not preserve editor labels, so accept tags, exact names, or generated names containing the marker id.
 			if (Actor->ActorHasTag(MarkerIdentifier) || Actor->GetFName() == MarkerIdentifier || ActorName.Contains(MarkerName))
 			{
 				return Actor;

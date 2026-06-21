@@ -57,6 +57,7 @@ FString EventTypeToString(const EMissionScenarioEventType EventType)
 
 bool ValidateScenarioDefinition(const FMissionScenarioDefinition& ScenarioDefinition, FString& OutError)
 {
+	// Validate the contract once before runtime state is allowed to start.
 	if (ScenarioDefinition.ScenarioId.TrimStartAndEnd().IsEmpty())
 	{
 		OutError = TEXT("Scenario definition requires a non-empty ScenarioId.");
@@ -237,6 +238,7 @@ bool UMissionScenarioInstance::CompleteCurrentObjective(FString& OutError)
 	const FMissionScenarioPhaseDefinition Phase = ScenarioDefinition.Phases[CurrentPhaseIndex];
 	const FMissionScenarioObjectiveDefinition Objective = ScenarioDefinition.Phases[CurrentPhaseIndex].Objectives[CurrentObjectiveIndex];
 	++CompletedObjectiveCount;
+	// Capture the completed objective before advancing, so the event log keeps the correct source objective.
 	AppendEvent(
 		EMissionScenarioEventType::ObjectiveCompleted,
 		FString::Printf(TEXT("Completed objective '%s'."), *Objective.ObjectiveId),
@@ -395,6 +397,7 @@ TArray<FMissionScenarioEventRecord> UMissionScenarioInstance::GetEventLog() cons
 
 FString UMissionScenarioInstance::ExportEventLogToJson() const
 {
+	// Keep the exported log self-describing so later diagnostics can read it without the live instance.
 	const TSharedRef<FJsonObject> RootObject = MakeShared<FJsonObject>();
 	RootObject->SetStringField(TEXT("schemaVersion"), EventLogContractVersion);
 	RootObject->SetStringField(TEXT("sourceScenarioContractVersion"), UMissionScenarioRuntimeLibrary::GetScenarioContractVersion());

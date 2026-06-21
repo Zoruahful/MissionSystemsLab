@@ -122,6 +122,7 @@ bool ParseObjective(
 	FMissionScenarioObjectiveDefinition& OutObjective,
 	FString& OutError)
 {
+	// Parse into the same struct used by gameplay, so bad data fails before the mission starts.
 	if (!ReadRequiredString(ObjectiveObject, TEXT("objectiveId"), Context, OutObjective.ObjectiveId, OutError) ||
 		!ReadRequiredString(ObjectiveObject, TEXT("displayName"), Context, OutObjective.DisplayName, OutError))
 	{
@@ -262,6 +263,7 @@ bool UMissionScenarioRuntimeLibrary::ParseScenarioJson(
 
 	if (!OutScenario.SchemaVersion.Equals(ScenarioContractVersion, ESearchCase::CaseSensitive))
 	{
+		// Version gating prevents older or future JSON contracts from silently changing runtime behavior.
 		OutError = FString::Printf(
 			TEXT("scenario schemaVersion '%s' is not supported. Expected '%s'."),
 			*OutScenario.SchemaVersion,
