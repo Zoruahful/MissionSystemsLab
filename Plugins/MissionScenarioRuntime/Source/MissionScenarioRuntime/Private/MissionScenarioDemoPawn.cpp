@@ -3,6 +3,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
+#include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "MissionScenarioDemoActor.h"
@@ -63,6 +64,7 @@ AMissionScenarioDemoPawn::AMissionScenarioDemoPawn()
 	CameraBoom->SetRelativeRotation(FRotator(-20.0f, 0.0f, 0.0f));
 	CameraBoom->bUsePawnControlRotation = true;
 	CameraBoom->bEnableCameraLag = true;
+	CameraBoom->bDoCollisionTest = false;
 	CameraBoom->CameraLagSpeed = 8.0f;
 
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
@@ -74,6 +76,28 @@ AMissionScenarioDemoPawn::AMissionScenarioDemoPawn()
 	MovementComponent->MaxSpeed = 650.0f;
 	MovementComponent->Acceleration = 2400.0f;
 	MovementComponent->Deceleration = 2800.0f;
+}
+
+void AMissionScenarioDemoPawn::BeginPlay()
+{
+	Super::BeginPlay();
+
+	FVector SpawnLocation = GetActorLocation();
+	if (SpawnLocation.Z < 95.0f)
+	{
+		SpawnLocation.Z = 95.0f;
+		SetActorLocation(SpawnLocation, false, nullptr, ETeleportType::TeleportPhysics);
+	}
+
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		// Start with a predictable review angle so the first frame is never inside the floor.
+		PlayerController->SetControlRotation(FRotator(-16.0f, 35.0f, 0.0f));
+	}
+
+	CameraBoom->TargetArmLength = 520.0f;
+	CameraBoom->SetRelativeLocation(FVector(0.0f, 0.0f, 95.0f));
+	CameraBoom->SetRelativeRotation(FRotator(-16.0f, 0.0f, 0.0f));
 }
 
 void AMissionScenarioDemoPawn::Tick(const float DeltaSeconds)

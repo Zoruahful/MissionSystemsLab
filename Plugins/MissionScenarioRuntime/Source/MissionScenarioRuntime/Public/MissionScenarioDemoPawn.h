@@ -18,6 +18,7 @@ class MISSIONSCENARIORUNTIME_API AMissionScenarioDemoPawn : public APawn
 public:
 	AMissionScenarioDemoPawn();
 
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual UPawnMovementComponent* GetMovementComponent() const override;
