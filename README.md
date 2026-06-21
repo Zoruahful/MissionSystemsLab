@@ -11,6 +11,10 @@ Mission Systems Lab is a UE 5.8 C++ gameplay systems demo focused on data-driven
 
 [![Mission Systems Lab gameplay demo](Media/GitHub/MissionSystemsLabDemoPreview.gif)](Media/GitHub/MissionSystemsLabDemo.mp4)
 
+| ALPHA | HOLD | CONSOLE |
+| --- | --- | --- |
+| ![ALPHA objective](Media/GitHub/Screenshots/01_alpha_objective.jpg) | ![HOLD objective](Media/GitHub/Screenshots/02_hold_objective.jpg) | ![CONSOLE objective](Media/GitHub/Screenshots/03_console_objective.jpg) |
+
 ## Demo Flow
 
 Open the project, press Play, and complete the scenario:
