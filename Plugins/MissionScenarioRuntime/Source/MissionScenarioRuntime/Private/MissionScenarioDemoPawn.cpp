@@ -14,7 +14,7 @@
 namespace
 {
 constexpr float ReachObjectiveRadius = 150.0f;
-constexpr float HoldObjectiveRadius = 170.0f;
+constexpr float HoldObjectiveRadius = 650.0f;
 constexpr float ConsoleInteractionRadius = 160.0f;
 constexpr float DemoHoldRequiredSeconds = 5.0f;
 
@@ -203,7 +203,8 @@ bool AMissionScenarioDemoPawn::EvaluateObjectiveProgress(const float DeltaSecond
 
 	if (Objective.ObjectiveId == TEXT("hold_position"))
 	{
-		if (!IsNearObjectiveMarker(Objective.ObjectiveId, HoldObjectiveRadius))
+		const bool bHasHoldMarker = FindObjectiveMarker(Objective.ObjectiveId) != nullptr;
+		if (bHasHoldMarker && !IsNearObjectiveMarker(Objective.ObjectiveId, HoldObjectiveRadius))
 		{
 			HoldObjectiveElapsedSeconds = 0.0f;
 			LastScenarioInteractionMessage = TEXT("Move to HOLD.");
@@ -335,7 +336,9 @@ AActor* AMissionScenarioDemoPawn::FindObjectiveMarker(const FString& ObjectiveId
 
 		for (const FName MarkerIdentifier : MarkerIdentifiers)
 		{
-			if (Actor->ActorHasTag(MarkerIdentifier) || Actor->GetFName() == MarkerIdentifier)
+			const FString ActorName = Actor->GetName();
+			const FString MarkerName = MarkerIdentifier.ToString();
+			if (Actor->ActorHasTag(MarkerIdentifier) || Actor->GetFName() == MarkerIdentifier || ActorName.Contains(MarkerName))
 			{
 				return Actor;
 			}
