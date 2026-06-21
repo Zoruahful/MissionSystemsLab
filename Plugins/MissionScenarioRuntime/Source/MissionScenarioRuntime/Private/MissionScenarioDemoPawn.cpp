@@ -14,7 +14,7 @@
 namespace
 {
 constexpr float ReachObjectiveRadius = 150.0f;
-constexpr float HoldObjectiveRadius = 650.0f;
+constexpr float HoldObjectiveRadius = 220.0f;
 constexpr float ConsoleInteractionRadius = 160.0f;
 constexpr float DemoHoldRequiredSeconds = 5.0f;
 
@@ -27,7 +27,7 @@ TArray<FName> GetMarkerIdentifiersForObjective(const FString& ObjectiveId)
 
 	if (ObjectiveId == TEXT("hold_position"))
 	{
-		return { TEXT("nav.hold"), TEXT("P1_ObjectiveMarker_Hold") };
+		return { TEXT("hold.position"), TEXT("P1_ObjectiveMarker_Hold") };
 	}
 
 	if (ObjectiveId == TEXT("interact_console"))
@@ -203,8 +203,7 @@ bool AMissionScenarioDemoPawn::EvaluateObjectiveProgress(const float DeltaSecond
 
 	if (Objective.ObjectiveId == TEXT("hold_position"))
 	{
-		const bool bHasHoldMarker = FindObjectiveMarker(Objective.ObjectiveId) != nullptr;
-		if (bHasHoldMarker && !IsNearObjectiveMarker(Objective.ObjectiveId, HoldObjectiveRadius))
+		if (!IsNearObjectiveMarker(Objective.ObjectiveId, HoldObjectiveRadius))
 		{
 			HoldObjectiveElapsedSeconds = 0.0f;
 			LastScenarioInteractionMessage = TEXT("Move to HOLD.");
