@@ -1,0 +1,19 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.8",
+	"Category": "Portfolio",
+	"Description": "UE 5.8 C++ mission scenario runtime demo.",
+	"Modules": [
+		{
+			"Name": "MissionSystemsLab",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "MissionScenarioRuntime",
+			"Enabled": true
+		}
+	]
+}

@@ -1,0 +1,29 @@
+# Local editor files
+.vs/
+.vscode/
+
+# Unreal generated folders
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Plugins/*/Binaries/
+Plugins/*/Intermediate/
+
+# Non-runtime project material
+Scripts/
+Docs/
+Plugins/*/Docs/
+
+# IDE and generated project files
+*.sln
+*.suo
+*.opensdf
+*.sdf
+*.VC.db
+*.VC.opendb
+*.log
+
+# Unstarted plugin folders
+Plugins/MissionDiagnostics/
+Plugins/MissionDebriefPipeline/

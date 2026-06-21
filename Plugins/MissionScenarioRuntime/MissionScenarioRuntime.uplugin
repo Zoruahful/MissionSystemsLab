@@ -1,0 +1,19 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.1.0",
+	"FriendlyName": "Mission Scenario Runtime",
+	"Description": "Runtime scenario state and event-log foundation for Mission Systems Lab.",
+	"Category": "Mission Systems Lab",
+	"CreatedBy": "Joshua Acevedo",
+	"CanContainContent": false,
+	"IsBetaVersion": true,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "MissionScenarioRuntime",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
