@@ -18,24 +18,24 @@ constexpr float HoldObjectiveRadius = 170.0f;
 constexpr float ConsoleInteractionRadius = 160.0f;
 constexpr float DemoHoldRequiredSeconds = 5.0f;
 
-FName GetMarkerIdentifierForObjective(const FString& ObjectiveId)
+TArray<FName> GetMarkerIdentifiersForObjective(const FString& ObjectiveId)
 {
 	if (ObjectiveId == TEXT("reach_alpha"))
 	{
-		return TEXT("nav.alpha");
+		return { TEXT("nav.alpha"), TEXT("P1_ObjectiveMarker_Alpha") };
 	}
 
 	if (ObjectiveId == TEXT("hold_position"))
 	{
-		return TEXT("nav.hold");
+		return { TEXT("nav.hold"), TEXT("P1_ObjectiveMarker_Hold") };
 	}
 
 	if (ObjectiveId == TEXT("interact_console"))
 	{
-		return TEXT("console.extract");
+		return { TEXT("console.extract"), TEXT("P1_ObjectiveMarker_Console") };
 	}
 
-	return NAME_None;
+	return {};
 }
 }
 
@@ -312,8 +312,8 @@ AMissionScenarioDemoActor* AMissionScenarioDemoPawn::FindDemoScenarioActor() con
 
 AActor* AMissionScenarioDemoPawn::FindObjectiveMarker(const FString& ObjectiveId) const
 {
-	const FName MarkerIdentifier = GetMarkerIdentifierForObjective(ObjectiveId);
-	if (MarkerIdentifier.IsNone())
+	const TArray<FName> MarkerIdentifiers = GetMarkerIdentifiersForObjective(ObjectiveId);
+	if (MarkerIdentifiers.IsEmpty())
 	{
 		return nullptr;
 	}
@@ -328,9 +328,17 @@ AActor* AMissionScenarioDemoPawn::FindObjectiveMarker(const FString& ObjectiveId
 	UGameplayStatics::GetAllActorsOfClass(World, AActor::StaticClass(), Actors);
 	for (AActor* Actor : Actors)
 	{
-		if (Actor != nullptr && (Actor->ActorHasTag(MarkerIdentifier) || Actor->GetFName() == MarkerIdentifier))
+		if (Actor == nullptr)
 		{
-			return Actor;
+			continue;
+		}
+
+		for (const FName MarkerIdentifier : MarkerIdentifiers)
+		{
+			if (Actor->ActorHasTag(MarkerIdentifier) || Actor->GetFName() == MarkerIdentifier)
+			{
+				return Actor;
+			}
 		}
 	}
 
